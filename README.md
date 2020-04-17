@@ -24,9 +24,9 @@ It was my goal to create a system components that are as independent as possible
 
 4. **A physical button to control the sauna and lights.** I picked up a [Hue Dimmer Switch](https://www2.meethue.com/en-us/p/hue-dimmer-switch/046677473372) which has 4 buttons (on/off/dim/brighten). This is nice because I can link it to the Hue lights in the sauna very easily. I'll then monitor button presses in the conrol software to attach additional behavior to these presses that will turn the sauna on or off. They also look great and can easily be mounted on the outside of the sauna.
 
-5. **Control software** to create the software thermostat, listen for hardware button presses, integrate with HomeKit, monitor energy usage and some other automation niceties. I use a Raspberry Pi with an [Aeotec Z-wave Stick](https://aeotec.com/z-wave-usb-stick/) and running Home Assistant.
+5. **Control software** to create the software thermostat, listen for hardware button presses, integrate with HomeKit, monitor energy usage and some other automation niceties. I use a Raspberry Pi with an [Aeotec Z-wave Stick](https://aeotec.com/z-wave-usb-stick/) and running [Home Assistant](https://www.home-assistant.io/).
 
-# Switch, Temperature Sensor and Smart Lights
+# Switch, Temperature Sensor, Smart Lights & Buttons
 
 Setting up the Aeotec Heavy Duty Switch is pretty straight forward, though make sure you get heat-proof electricity cable of the appropriate thickness (2.5mm wires in my case) for the capacity of your sauna heater.
 
@@ -34,15 +34,31 @@ One annoying aspect of the Aeotec switch is that its hardware on/off button is h
 
 For the temperature sensor, I got a simple [waterproof junction box](https://www.google.com/search?q=junction+box+ip65&tbm=isch). Inside I split the incoming AC electricity to the Aeotec Heavy Duty Switch (connected to the sauna heater) and the Shelly 1PM with Temperature addon. I then added the power to the Hue lights to the Shelly switch. That last bit did not gain me much in automation options, but it did reduce the amount of wires in the junction box.
 
-So I have AC coming into the junction box. Then a big fat AC wire coming out running to the Aeotech Heavy Duty Switch for the sauna, and two thinner (but also heat-proof) cables going out for the sauna lights and temperature sensor. These go into the sauna wall and out through the top, running over the roof.
+![Junction box](images/junction-box.jpeg)
+
+So I have AC coming into the junction box. Then a big fat AC wire coming out running to the Aeotech Heavy Duty Switch for the sauna, and two thinner (but also heat-proof) cables going out for the sauna lights and temperature sensor. These go into the sauna wall and out through the top, running over the roof of the sauna.
 
 For the temperature sensor itself, I drilled a hole in the sauna wall where I wanted to place it, and another hole at the top of the sauna to run the wire through. I then embedded the sensor into a little block of wood and screwed that into the sauna wall.
 
-# Physical buttons
+![Junction box](images/temperature-sensor.jpeg)
 
+To control both the lights and the sauna itself I set up the Hue Dimmer switch as you normally would to control lights. I then simply mounted it on the outside of the sauna. The control software will then monitor for button presses to attach additional behaviors to these buttons, like turning the sauna on or off. This ensures that even when my DIY automation magic breaks down, I can still turn on the lights.
 
+![Mounted Hue Dimmer Switch](images/dimmer-button.jpeg)
 
 # Control Software
+
+With all of the hardware attached, we have the sauna behind a switch, a sensor that reports the temperature inside the sauna, and lights that can be controlled with a few buttons. The next step is to take all of these components and make them work in unison.
+
+The easiest way to set up Home Assistant on the Pi is through [Hass.io](https://www.home-assistant.io/hassio/installation/) which provides ready to use images for all Pi models.
+
+Once set up, take a look at the home_assistant folder in this repo for the config I use. Roughly I took these steps:
+
+1. Enable the Z-Wave integration to add the Z-Stick and Aeotec Switch.
+2. Install HACS to add unofficial integrations.
+3. Through HACS, install the Shelly integration, to add the Shelly 1PM and temperature sensor.
+4. Through HACS, install the Hue Remotes Advanced integration, to be able to listen for button presses on the Hue Dimmer Switch.
+5. For ease of use, install the File Editor AddOn through the Supervisor. This will allow easy editing of the configuration files.
 
 
 # In action
