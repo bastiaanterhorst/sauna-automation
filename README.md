@@ -1,14 +1,14 @@
 _This README and all other documentation and software in this repository are covered by the attached MIT license. Nothing in this repository should be construed as a recommendation or assertion that something is safe, legal or otherwise a good idea. Connecting a heater or any other electric device to a computer could do terrible things, like burn your house down. I’m not responsible for anything that happens if you choose to use this knowledge, so MAKE USE OF IT EXCLUSIVELY AT YOUR OWN RISK._
 
-# An automated sauna -- why?
+# An automated sauna – why?
 
-Sauna's take a while to heat up. In my case, about 45 minutes for 85º Celsius. So, it is handy to be able to start it remotely -- for example at the gym -- so that the sauna is ready when I get home.
+Sauna's take a while to heat up. In my case, about 45 minutes for 85º Celsius. So, it is handy to be able to start it remotely – for example at the gym – so that the sauna is ready when I get home.
 
 Unfortunately, most sauna's are not wired for this. They are pretty dumb, and while there are remote start modules for some sauna's, they are expensive and often require specific conrol units and heaters. If you didn't take this into account when you bought it, and paid quite a bit extra for it, you have no official options.
 
 My sauna heater has no built-in thermostat. It has an on/off knob with a timer that turns the sauna on for 4 hours maximum, and then it switches off again.
 
-The purpose of this project was to allow me to turn my sauna on remotely, or schedule it to be turned on. I also wanted thermostat functionality, allowing me to set my heater to a specific temperature rather than gradually getting hotter over time or having to manually turn it off and on all the time. Since I was busy anyway, I also added smart lights to my sauna that can change color and are easily dimmable. Finally, I wanted to be able to control all of this this via my phone but also with hardware buttons on the sauna itself. When you're chilled out after a sauna session, the last thing you want to do is have to find your phone to turn the sauna off -- you want a physical button for that.
+The purpose of this project was to allow me to turn my sauna on remotely, or schedule it to be turned on. I also wanted thermostat functionality, allowing me to set my heater to a specific temperature rather than gradually getting hotter over time or having to manually turn it off and on all the time. Since I was busy anyway, I also added smart lights to my sauna that can change color and are easily dimmable. Finally, I wanted to be able to control all of this this via my phone but also with hardware buttons on the sauna itself. When you're chilled out after a sauna session, the last thing you want to do is have to find your phone to turn the sauna off – you want a physical button for that.
 
 I am writing this up so other might make less mistakes than I did trying to get all of this to work. It is not meant as a finished solution: tweak it and make it your own.
 
