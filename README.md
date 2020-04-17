@@ -60,10 +60,29 @@ Once set up, take a look at the home_assistant folder in this repo for the confi
 4. Through HACS, install the Hue Remotes Advanced integration, to be able to listen for button presses on the Hue Dimmer Switch.
 5. For ease of use, install the File Editor AddOn through the Supervisor. This will allow easy editing of the configuration files.
 
+Then, to automate all of this, take a look at the two main config files:
+[configuration.yaml](home_assistant/configuration.yaml) configures all of the integrations and sets up the software thermostat. I also use an *input_number* to store state: whether the sauna has reached the desired temperature yet. This state is then used to trigger a notification to my phone via the Home app and an audio announcement over a Sonos speaker (see Other Bits, below).
+
+[automations.yaml](home_assistant/automations.yaml) configures all behavior. This file sets up listening for button presses on the Hue Dimmer Switch, turning the software thermostat on or off. It also manages the state variable I just mentioned, setting it when the sauna reaches the right temperature, and resetting it when appropriate.
+
 
 # In action
+
+# Other bits
+
+Other completely superfluous stuff I did, just for kicks:
+1. Add a little [script](home_assistant/scripts.yaml) that announces the current sauna temperature over Sonos, and add an [automation](home_assistant/automations.yaml) to do so when the sauna reaches the desired temperature.
+2. Add the InfluxDB addon for Home Assistant for more powerful graphing abilities
+![InfluxDB graph](images/influx.png)
+3. Add a fake smoke detector in Home Assistant that is triggered when the sauna reaches the desired temperature. This is neat because smoke detectors are the only sensors that can send push notifications with HomeKit. Check out the [config](home_assistant/configuration.yaml) on how this works.
+![Smoke detected notification](images/smoke-detected.jpeg)
+
+
+
+
 
 
 
 # Prior art
-This project was heavily inspired by [William Henderson's SaunaKit](https://github.com/quicklywilliam/saunakit)
+
+This project was heavily inspired by [William Henderson's SaunaKit](https://github.com/quicklywilliam/saunakit), from the use of the heavy duty switch, to using Home Assistant, to taking a smoke detector to get an alert when the sauna is ready. Thanks!

@@ -90,10 +90,9 @@
     platform: state
   condition:
   - condition: template
-    value_template: '{{ not is_state(''climate.sauna'', ''off'') }}'
+    value_template: "{{ not is_state('climate.sauna', 'off') }}"
   - condition: template
-    value_template: '{{ states(''sensor.sauna_temperature'')|float > state_attr(''climate.sauna'',
-      ''temperature'')|float }}'
+    value_template: "{{ states('sensor.sauna_temperature')|float > state_attr('climate.sauna','temperature')|float }}"
   action:
   - data:
       value: 1
@@ -108,13 +107,12 @@
   description: ''
   trigger:
   - platform: template
-    value_template: '{{ state_attr(''climate.sauna'', ''temperature'') > 10 }}'
+    value_template: "{{ state_attr('climate.sauna', 'temperature') > 10 }}"
   condition:
   - condition: template
-    value_template: '{{ not is_state(''climate.sauna'', ''off'') }}'
+    value_template: "{{ not is_state('climate.sauna', 'off') }}"
   - condition: template
-    value_template: '{{ states(''sensor.sauna_temperature'')|float < state_attr(''climate.sauna'',
-      ''temperature'')|float }}'
+    value_template: "{{ states('sensor.sauna_temperature')|float < state_attr('climate.sauna','temperature')|float }}"
   action:
   - data:
       value: 0
