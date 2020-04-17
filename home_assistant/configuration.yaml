@@ -1,0 +1,71 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Stores whether the sauna has already reached the desired
+# temperature. When it does, we fire some notifications. We store state here to 
+# prevent flapping and being overloaded with notifications.
+input_number:
+  sauna_ready_has_triggered:
+    name: Sauna Reay Has Triggered
+    initial: 0
+    min: 0
+    max: 1
+    step: 1
+    
+# Enable homekit so we can control the thermostat from the Home app
+# We only add the thermostat and the 'smoke detector' which will alert us when
+# the desired temperature has been reached.
+homekit:
+  auto_start: false
+  filter:
+    include_entities:
+      - climate.sauna
+      - binary_sensor.sauna_ready
+
+# Set up the Shelly integration which is used for the temperature sensor.
+shelly:
+
+# This creates a software thermostat using our sauna switch as the heater and
+# our Shelly temperature sensor.
+climate:
+  - platform: generic_thermostat
+    name: Sauna
+    heater: switch.sauna
+    target_sensor: sensor.sauna_temperature
+    min_temp: 60
+    max_temp: 100
+    cold_tolerance: 2
+    hot_tolerance: 2
+    min_cycle_duration: 
+      minutes: 3
+    precision: 1.0
+    initial_hvac_mode: "off"
+
+# This creates a software smoke detector. We use this to send a push
+# notification to the phone when the sauna has reached the desired temperature.
+# Its a smoke detector since only those devices can alert with a push message.
+binary_sensor:
+  - platform: template
+    sensors:
+      sauna_ready:
+        device_class: smoke
+        value_template: "{{ states('input_number.sauna_ready_has_triggered')|int == 1 }}"
+
+# The sauna is controlled from the outside with a Hue Dimmer switch. This sets
+# up access to that device.
+remote:
+  - platform: hueremote
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

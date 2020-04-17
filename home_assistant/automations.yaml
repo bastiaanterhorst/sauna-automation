@@ -1,0 +1,140 @@
+# Turn on the sauna thermostat when the top button on the Hue dimmer switch is
+# pressed. Also set the sauna temperature to 85 as its a nice default. 
+# Do NOT do anything when the thermostat was already on, to allow for changing
+# the lights without messing with any custom set temperature.
+- id: '1585843475212'
+  alias: Sauna thermostat on with dimmer
+  description: ''
+  trigger:
+  - entity_id: remote.hue_dimmer_switch_1
+    platform: state
+  condition:
+  - condition: state
+    entity_id: remote.hue_dimmer_switch_1
+    state: 1_click_up
+  - condition: state
+    entity_id: climate.sauna
+    state: 'off'
+  action:
+  - data: {}
+    entity_id: climate.sauna
+    service: climate.turn_on
+  - data:
+      temperature: 85
+    entity_id: climate.sauna
+    service: climate.set_temperature
+  
+# Turn the thermostat off with the bottom button on the dimmer switch.  
+- id: '1586440246397'
+  alias: Sauna thermostat off with dimmer
+  description: ''
+  trigger:
+  - entity_id: remote.hue_dimmer_switch_1
+    platform: state
+  condition:
+  - condition: state
+    entity_id: remote.hue_dimmer_switch_1
+    state: 4_click_up
+  action:
+  - data: {}
+    entity_id: climate.sauna
+    service: climate.turn_off
+    
+# helper automation to delay starting of HomeKit until the Zwave integration has
+# fully started
+- alias: Autostart HomeKit when ZWave is ready
+  trigger:
+  - platform: event
+    event_type: zwave.network_ready
+  - platform: event
+    event_type: zwave.network_complete
+  - platform: event
+    event_type: zwave.network_complete_some_dead
+  action:
+  - service: homekit.start
+  id: ec052d36d3c24d6ca2ee0d1fc1539f8a
+  
+# To keep things fresh, restart Home Assistant every night at 4am.
+- alias: Restart HA
+  trigger:
+    platform: time
+    at: 04:00:00
+  action:
+  - service: homeassistant.restart
+  id: 182840f8c4ac4e24b7d61ce3953b6372
+  
+# When the sauna is turned off, reset our little helper variable that we use to
+# keep track of whether the sauna has reached the desired temperature.
+- id: '1586914797351'
+  alias: Reset Sauna Has Triggered when Sauna Thermostat is turned off
+  description: ''
+  trigger:
+  - entity_id: climate.sauna
+    from: heat
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data:
+      value: 0
+    entity_id: input_number.sauna_ready_has_triggered
+    service: input_number.set_value
+    
+# When the sauna reaches the desired temperature, store that in our little
+# helper variable.
+- id: '1586932458356'
+  alias: Set Sauna Has Triggered when sauna thermostat reaches set temperature
+  description: ''
+  trigger:
+  - entity_id: sensor.sauna_temperature
+    platform: state
+  condition:
+  - condition: template
+    value_template: '{{ not is_state(''climate.sauna'', ''off'') }}'
+  - condition: template
+    value_template: '{{ states(''sensor.sauna_temperature'')|float > state_attr(''climate.sauna'',
+      ''temperature'')|float }}'
+  action:
+  - data:
+      value: 1
+    entity_id: input_number.sauna_ready_has_triggered
+    service: input_number.set_value
+    
+# When the thermostat temperature is changed to a value higher than the current
+# temperature, reset the helper variable to it can trigger again when we reach
+# the new desired temperature.
+- id: '1586933949206'
+  alias: Reset Sauna Triggered when thermostat temp is set higher than current temperature
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ state_attr(''climate.sauna'', ''temperature'') > 10 }}'
+  condition:
+  - condition: template
+    value_template: '{{ not is_state(''climate.sauna'', ''off'') }}'
+  - condition: template
+    value_template: '{{ states(''sensor.sauna_temperature'')|float < state_attr(''climate.sauna'',
+      ''temperature'')|float }}'
+  action:
+  - data:
+      value: 0
+    entity_id: input_number.sauna_ready_has_triggered
+    service: input_number.set_value
+
+# When the helper variable is set, run a script that will announce that the
+# sauna is ready over Sonos.
+- id: '1586934652491'
+  alias: Announce Sauna is Ready
+  description: ''
+  trigger:
+  - entity_id: input_number.sauna_ready_has_triggered
+    from: '0.0'
+    platform: state
+    to: '1.0'
+  condition: []
+  action:
+  - data:
+      delay: 00:00:05
+      sonos_entity: media_player.kitchen
+      volume: 0.25
+    service: script.sauna_sonos_announce

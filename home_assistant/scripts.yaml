@@ -1,0 +1,23 @@
+# This script announces that the sauna has reached a certain temperature over
+# a Sonos speaker.
+sauna_sonos_announce:
+    alias: "Announce Sauna Ready"
+    sequence:
+     - service: sonos.snapshot
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+     - service: sonos.unjoin
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+     - service: media_player.volume_set
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+         volume_level: "{{ volume }}"
+     - service: tts.google_translate_say
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+         message: "The sauna is now {{ states('sensor.sauna_temperature')|int }} degrees"
+     - delay: "{{ delay }}"
+     - service: sonos.restore
+       data_template:
+         entity_id: "{{ sonos_entity }}"
