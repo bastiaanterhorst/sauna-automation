@@ -12,10 +12,6 @@ The purpose of this project was to allow me to turn my sauna on remotely, or sch
 
 I am writing this up so other might make less mistakes than I did trying to get all of this to work. It is not meant as a finished solution: tweak it and make it your own.
 
-# Sauna requirements
-
-
-
 # System components
 
 It was my goal to create a system components that are as independent as possible, and to always be able to fall back to manual control of the sauna heater in case any of the smart components fail. The automation setup consists of the following components:
@@ -26,7 +22,9 @@ It was my goal to create a system components that are as independent as possible
 
 3. **Smart lights**. Since I have Philips Hue lights throughout my home it was simplest to get [these](https://www2.meethue.com/en-us/p/hue-white-and-color-ambiance-1-pack-gu10/046677542337). They are not officially rated for the kinds of temperatures a sauna sees, but there is cover between the lights and the sauna which takes some of the heat off them, and so far they have been working well (🤞).
 
-4. **Control software** to create the software thermostat, listen for hardware button presses, integrate with HomeKit, monitor energy usage and some other automation niceties. I use a Raspberry Pi with an [Aeotec Z-wave Stick](https://aeotec.com/z-wave-usb-stick/) and running Home Assistant.
+4. **A physical button to control the sauna and lights.** I picked up a [Hue Dimmer Switch](https://www2.meethue.com/en-us/p/hue-dimmer-switch/046677473372) which has 4 buttons (on/off/dim/brighten). This is nice because I can link it to the Hue lights in the sauna very easily. I'll then monitor button presses in the conrol software to attach additional behavior to these presses that will turn the sauna on or off. They also look great and can easily be mounted on the outside of the sauna.
+
+5. **Control software** to create the software thermostat, listen for hardware button presses, integrate with HomeKit, monitor energy usage and some other automation niceties. I use a Raspberry Pi with an [Aeotec Z-wave Stick](https://aeotec.com/z-wave-usb-stick/) and running Home Assistant.
 
 # Switch, Temperature Sensor and Smart Lights
 
@@ -40,14 +38,14 @@ So I have AC coming into the junction box. Then a big fat AC wire coming out run
 
 For the temperature sensor itself, I drilled a hole in the sauna wall where I wanted to place it, and another hole at the top of the sauna to run the wire through. I then embedded the sensor into a little block of wood and screwed that into the sauna wall.
 
+# Physical buttons
+
+
+
 # Control Software
 
 
-
-
-Switch
-After experimenting with some lighter switches that all broke or gave overload warnings due to my sauna actually using a bit more energy than it is rated for, 
-
+# In action
 
 
 
