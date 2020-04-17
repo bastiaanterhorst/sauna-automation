@@ -61,12 +61,14 @@ Once set up, take a look at the home_assistant folder in this repo for the confi
 5. For ease of use, install the File Editor AddOn through the Supervisor. This will allow easy editing of the configuration files.
 
 Then, to automate all of this, take a look at the two main config files:
-[configuration.yaml](home_assistant/configuration.yaml) configures all of the integrations and sets up the software thermostat. I also use an *input_number* to store state: whether the sauna has reached the desired temperature yet. This state is then used to trigger a notification to my phone via the Home app and an audio announcement over a Sonos speaker (see Other Bits, below).
 
-[automations.yaml](home_assistant/automations.yaml) configures all behavior. This file sets up listening for button presses on the Hue Dimmer Switch, turning the software thermostat on or off. It also manages the state variable I just mentioned, setting it when the sauna reaches the right temperature, and resetting it when appropriate.
+**[configuration.yaml](home_assistant/configuration.yaml)** configures all of the integrations and sets up the software thermostat. I also use an *input_number* to store state: whether the sauna has reached the desired temperature yet. This state is then used to trigger a notification to my phone via the Home app and an audio announcement over a Sonos speaker (see Other Bits, below).
 
+**[automations.yaml](home_assistant/automations.yaml)** configures all behavior. This file sets up listening for button presses on the Hue Dimmer Switch, turning the software thermostat on or off. It also manages the state variable I just mentioned, setting it when the sauna reaches the right temperature, and resetting it when appropriate.
 
 # In action
+
+asdf
 
 # Other bits
 
