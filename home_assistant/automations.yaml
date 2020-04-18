@@ -136,3 +136,29 @@
       sonos_entity: media_player.kitchen
       volume: 0.25
     service: script.sauna_sonos_announce
+
+# Turn just the lights on when the brighten button is pushed
+- id: '1587189680546'
+  alias: Sauna spots on with brighten button
+  description: ''
+  trigger:
+  - entity_id: remote.hue_dimmer_switch_1
+    platform: state
+  condition:
+  - condition: state
+    entity_id: remote.hue_dimmer_switch_1
+    state: 2_click_up
+  - condition: device
+    device_id: d62adfa62d3549a98e887a0c7fb49071
+    domain: light
+    entity_id: light.sauna_spot_1
+    type: is_off
+  action:
+  - device_id: d62adfa62d3549a98e887a0c7fb49071
+    domain: light
+    entity_id: light.sauna_spot_1
+    type: turn_on
+  - device_id: 3b13712ead96466db7ffa0626bd8e1ab
+    domain: light
+    entity_id: light.sauna_spot_2
+    type: turn_on

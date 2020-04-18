@@ -10,7 +10,7 @@ My sauna heater has no built-in thermostat. It has an on/off knob with a timer t
 
 The purpose of this project was to allow me to turn my sauna on remotely, or schedule it to be turned on. I also wanted thermostat functionality, allowing me to set my heater to a specific temperature rather than gradually getting hotter over time or having to manually turn it off and on all the time. Since I was busy anyway, I also added smart lights to my sauna that can change color and are easily dimmable. Finally, I wanted to be able to control all of this this via my phone but also with hardware buttons on the sauna itself. When you're chilled out after a sauna session, the last thing you want to do is have to find your phone to turn the sauna off – you want a physical button for that.
 
-I am writing this up so other might make less mistakes than I did trying to get all of this to work. It is not meant as a finished solution: tweak it and make it your own.
+I am writing this up so other might make less mistakes than I did trying to get all of this to work. It is not meant as a finished solution, nor as a detailed step-by-step guide. Tweak it and make it your own.
 
 # System components
 
@@ -59,6 +59,7 @@ Once set up, take a look at the home_assistant folder in this repo for the confi
 3. Through HACS, install the Shelly integration, to add the Shelly 1PM and temperature sensor.
 4. Through HACS, install the Hue Remotes Advanced integration, to be able to listen for button presses on the Hue Dimmer Switch.
 5. For ease of use, install the File Editor AddOn through the Supervisor. This will allow easy editing of the configuration files.
+6. Enable the [Homekit integration](https://www.home-assistant.io/integrations/homekit) to control your sauna using Siri and the Home app. If you have an Apple TV or HomePod you can then also control your sauna when you are away from your home wifi network.
 
 Then, to automate all of this, take a look at the two main config files:
 
@@ -66,25 +67,20 @@ Then, to automate all of this, take a look at the two main config files:
 
 **[automations.yaml](home_assistant/automations.yaml)** configures all behavior. This file sets up listening for button presses on the Hue Dimmer Switch, turning the software thermostat on or off. It also manages the state variable I just mentioned, setting it when the sauna reaches the right temperature, and resetting it when appropriate.
 
-# In action
+# Conclusion
 
-asdf
+The described setup allows me to easily control my sauna using a few simple physical buttons, as well as control it remotely using the Home app or Siri. Besides automation, having a reliable thermostat is hugely helpful in making sure I don't slowly roast myself. Finally, knowing that if Home Assistant breaks, I can still control the sauna using a hardware button on the switch itself is a comforting thought.
 
 # Other bits
 
 Other completely superfluous stuff I did, just for kicks:
 1. Add a little [script](home_assistant/scripts.yaml) that announces the current sauna temperature over Sonos, and add an [automation](home_assistant/automations.yaml) to do so when the sauna reaches the desired temperature.
-2. Add the InfluxDB addon for Home Assistant for more powerful graphing abilities
+2. Add the InfluxDB addon for Home Assistant for more powerful graphing abilities. This allows for easy inspection of the temperature slope to fine tune thermostat properties.
 ![InfluxDB graph](images/influx.png)
 3. Add a fake smoke detector in Home Assistant that is triggered when the sauna reaches the desired temperature. This is neat because smoke detectors are the only sensors that can send push notifications with HomeKit. Check out the [config](home_assistant/configuration.yaml) on how this works.
+   
 ![Smoke detected notification](images/smoke-detected.jpeg)
 
-
-
-
-
-
-
-# Prior art
+# Inspiration
 
 This project was heavily inspired by [William Henderson's SaunaKit](https://github.com/quicklywilliam/saunakit), from the use of the heavy duty switch, to using Home Assistant, to taking a smoke detector to get an alert when the sauna is ready. Thanks!
