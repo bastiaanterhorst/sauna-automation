@@ -57,9 +57,8 @@ Once set up, take a look at the home_assistant folder in this repo for the confi
 1. Enable the Z-Wave integration to add the Z-Stick and Aeotec Switch.
 2. Install HACS to add unofficial integrations.
 3. Through HACS, install the Shelly integration, to add the Shelly 1PM and temperature sensor.
-4. Through HACS, install the Hue Remotes Advanced integration, to be able to listen for button presses on the Hue Dimmer Switch.
-5. For ease of use, install the File Editor AddOn through the Supervisor. This will allow easy editing of the configuration files.
-6. Enable the [Homekit integration](https://www.home-assistant.io/integrations/homekit) to control your sauna using Siri and the Home app. If you have an Apple TV or HomePod you can then also control your sauna when you are away from your home wifi network.
+4. For ease of use, install the File Editor AddOn through the Supervisor. This will allow easy editing of the configuration files.
+5. Enable the [Homekit integration](https://www.home-assistant.io/integrations/homekit) to control your sauna using Siri and the Home app. If you have an Apple TV or HomePod you can then also control your sauna when you are away from your home wifi network.
 
 Then, to automate all of this, take a look at the two main config files:
 
@@ -75,7 +74,7 @@ The described setup allows me to easily control my sauna using a few simple phys
 
 Other completely superfluous stuff I did, just for kicks:
 1. Add a little [script](home_assistant/scripts.yaml) that announces the current sauna temperature over Sonos, and add an [automation](home_assistant/automations.yaml) to do so when the sauna reaches the desired temperature.
-2. Add the InfluxDB addon for Home Assistant for more powerful graphing abilities. This allows for easy inspection of the temperature slope to fine tune thermostat properties.
+2. Add the InfluxDB addon to inspect the temperature slope of your heater in detail, to fine tune thermostat properties. Just make sure to uninstall the addon when you're done. I have heard that the number of writes Infux does is not good for the SD card your Pi runs on.
 ![InfluxDB graph](images/influx.png)
 3. Add a fake smoke detector in Home Assistant that is triggered when the sauna reaches the desired temperature. This is neat because smoke detectors are the only sensors that can send push notifications with HomeKit. Check out the [config](home_assistant/configuration.yaml) on how this works.
    

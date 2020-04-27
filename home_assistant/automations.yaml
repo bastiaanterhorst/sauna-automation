@@ -6,12 +6,11 @@
   alias: Sauna thermostat on with dimmer
   description: ''
   trigger:
-  - entity_id: remote.hue_dimmer_switch_1
-    platform: state
+  - event_data:
+      event: 1002
+    event_type: hue_event
+    platform: event
   condition:
-  - condition: state
-    entity_id: remote.hue_dimmer_switch_1
-    state: 1_click_up
   - condition: state
     entity_id: climate.sauna
     state: 'off'
@@ -29,12 +28,10 @@
   alias: Sauna thermostat off with dimmer
   description: ''
   trigger:
-  - entity_id: remote.hue_dimmer_switch_1
-    platform: state
-  condition:
-  - condition: state
-    entity_id: remote.hue_dimmer_switch_1
-    state: 4_click_up
+  - event_data:
+      event: 4002
+    event_type: hue_event
+    platform: event
   action:
   - data: {}
     entity_id: climate.sauna
@@ -106,11 +103,16 @@
   alias: Reset Sauna Triggered when thermostat temp is set higher than current temperature
   description: ''
   trigger:
-  - platform: template
-    value_template: "{{ state_attr('climate.sauna', 'temperature') > 10 }}"
+  - entity_id: climate.sauna
+    platform: state
   condition:
   - condition: template
     value_template: "{{ not is_state('climate.sauna', 'off') }}"
+  - condition: template
+    value_template: >
+      {{ trigger.from_state and
+        trigger.to_state.attributes.temperature !=
+        trigger.from_state.attributes.temperature }}
   - condition: template
     value_template: "{{ states('sensor.sauna_temperature')|float < state_attr('climate.sauna','temperature')|float }}"
   action:
@@ -142,12 +144,11 @@
   alias: Sauna spots on with brighten button
   description: ''
   trigger:
-  - entity_id: remote.hue_dimmer_switch_1
-    platform: state
+  - event_data:
+      event: 2002
+    event_type: hue_event
+    platform: event
   condition:
-  - condition: state
-    entity_id: remote.hue_dimmer_switch_1
-    state: 2_click_up
   - condition: device
     device_id: d62adfa62d3549a98e887a0c7fb49071
     domain: light
