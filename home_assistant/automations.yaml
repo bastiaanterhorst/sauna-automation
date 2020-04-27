@@ -8,6 +8,7 @@
   trigger:
   - event_data:
       event: 1002
+      id: "hue_dimmer_switch_1"
     event_type: hue_event
     platform: event
   condition:
@@ -30,6 +31,7 @@
   trigger:
   - event_data:
       event: 4002
+      id: "hue_dimmer_switch_1"
     event_type: hue_event
     platform: event
   action:
@@ -146,6 +148,7 @@
   trigger:
   - event_data:
       event: 2002
+      id: "hue_dimmer_switch_1"
     event_type: hue_event
     platform: event
   condition:
