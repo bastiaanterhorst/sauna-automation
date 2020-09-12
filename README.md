@@ -2,7 +2,7 @@ _This README and all other documentation and software in this repository are cov
 
 # An automated sauna – why?
 
-Sauna's take a while to heat up. In my case, about 45 minutes for 85º Celsius. So, it is handy to be able to start it remotely – for example at the gym – so that the sauna is ready when I get home.
+Saunas take a while to warm up. In my case, about 40 minutes for 85º Celsius. So, it is handy to be able to start it remotely – for example at the gym – so that the sauna is ready when I get home.
 
 Unfortunately, most sauna's are not wired for this. They are pretty dumb, and while there are remote start modules for some sauna's, they are expensive and often require specific conrol units and heaters. If you didn't take this into account when you bought it, and paid quite a bit extra for it, you have no official options.
 
